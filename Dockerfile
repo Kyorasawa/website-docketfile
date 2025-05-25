@@ -1,6 +1,8 @@
-FROM node:20-slim
+FROM fedora:38
 
-RUN apt-get update && apt-get install -y git && rm -rf /var/lib/apt/lists/*
+RUN dnf -y update && \
+    dnf -y install git nodejs npm && \
+    dnf clean all
 
 RUN git clone https://github.com/Kyorasawa/Website.git /app
 
@@ -8,8 +10,8 @@ WORKDIR /app
 
 RUN npm install
 
-EXPOSE 3000
-
 RUN npm run build
+
+EXPOSE 3000
 
 CMD ["npm", "start"]
